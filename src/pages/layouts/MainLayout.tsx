@@ -16,7 +16,7 @@ const Header: FC = () => {
   const store = useStore();
   return (
     <header className="flex items-center bg-white shadow-sm px-4 py-2 z-10">
-      <button className="flex justify-center items-center rounded-full hover:bg-gray-900 focus:outline-none transition-colors w-10 h-10 -mx-2 -my-1" onClick={()=> store.ui.toggleDrawer()}>
+      <button className="flex justify-center items-center rounded-full hover:bg-gray-100 focus:outline-none transition-colors w-10 h-10 -mx-2 -my-1" onClick={()=> store.ui.toggleDrawer()}>
         <MenuIcon/>
       </button>
 
@@ -42,7 +42,7 @@ const Drawer: FC = observer(() => {
   const style = {
     width: 320,
     left: drawerOpen ? 0 : -320,
-    transition: 'left .2s ease-out',
+    transition: 'left .5s ease-in-out',
   }
   return (
     <>

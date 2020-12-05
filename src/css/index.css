@@ -5,3 +5,46 @@
 .outline, .outline-red { outline: 1px solid red; }
 .outline-blue { outline: 1px solid blue; }
 .outline-orange { outline: 1px solid orange; }
+
+/*
+ * Modals
+ */
+ #__modals {
+  position: absolute;
+  top: 0; right: 0; left: 0; bottom: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+.backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .6);
+  opacity: 0;
+  z-index: 999;
+  transition: .2s opacity cubic-bezier(.4,1, .75, .9);
+  pointer-events: all;
+}
+.modal-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  z-index: 999;
+  pointer-events: none;
+}
+.modal-container > * { pointer-events: all; }
+
+.backdrop[data-transition-state=entering] { opacity: 0; }
+.backdrop[data-transition-state=enter] { opacity: 1; }
+.backdrop[data-transition-state=exiting] { opacity: 1; }
+.backdrop[data-transition-state=exit] { opacity: 0; }
+
+[data-transition-name="scale"][data-transition-state=entering] { transform: scale(.9); opacity: 0; }
+[data-transition-name="scale"][data-transition-state=enter] { transform: scale(1); opacity: 1; transition: .25s cubic-bezier(.54,1.12,.38,1.11); transition-property: opacity, transform; }
+[data-transition-name="scale"][data-transition-state=exiting] { transform: scale(1); opacity: 1; }
+[data-transition-name="scale"][data-transition-state=exit] { transform: scale(.9); opacity: 0; transition: .25s cubic-bezier(.54,1.12,.38,1.11); transition-property: opacity, transform; }

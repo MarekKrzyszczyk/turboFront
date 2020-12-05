@@ -6,6 +6,7 @@ import { MainLayout } from './layouts/MainLayout';
 import { AccountHardHatIcon, ClockOutlineIcon, AccountTieIcon, CarTurbochargerIcon, CheckboxBlankCircleOutline, ProgressWrenchIcon, CheckCircleOutlineIcon, FaceAgentIcon, CommentTextOutlineIcon } from '../components/icons';
 import { orderStatusName } from '../utils/helpers';
 import backgroundImage from '../media/turbo.jpg';
+import { showOrderDialog } from './OrderDialog';
 
 
 export const OrderPage = observer(() => {
@@ -13,9 +14,9 @@ export const OrderPage = observer(() => {
   return (
     <MainLayout>
       <div className="relative flex-1 bg-gray-300 overflow-hidden">
-        <div className="relative h-full grid z-10 p-2 overflow-scroll" style={{gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))'}}>
+        <div className="relative h-full grid justify-start items-start place-content-start z-10 p-2 overflow-scroll" style={{gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))'}}>
           {store.orders.map(order => (
-            <OrderItem order={order}/>
+            <OrderItem key={order.id} order={order}/>
           ))}
         </div>
 
@@ -29,6 +30,7 @@ export const OrderPage = observer(() => {
 });
 
 const OrderItem = observer(({order}: {order: Order}) => {
+  const store = useStore();
   const statusClassName = clsx({
     'bg-blue-300': order.status === OrderStatus.new,
     'bg-yellow-300': order.status === OrderStatus.inProgress,
@@ -40,7 +42,7 @@ const OrderItem = observer(({order}: {order: Order}) => {
     [OrderStatus.done]: <CheckCircleOutlineIcon size={18}/>,
   }[order.status];
   return (
-    <div className={clsx('rounded shadow-md hover:shadow-xl cursor-pointer transition-all bg-white m-2 text-sm hover:opacity-100', {'opacity-60': order.status === OrderStatus.done})}>
+    <div role="button" className={clsx('rounded shadow-md hover:shadow-xl cursor-pointer transition-all bg-white m-2 text-sm hover:opacity-100', {'opacity-60': order.status === OrderStatus.done})} onClick={()=> showOrderDialog({store, order})}>
       <header className="flex items-stretch bg-gray-100 rounded rounded-b-none">
         <div className="flex-1 px-2 py-1 font-semibold">000{order.id}</div>
         <div className={clsx('flex items-center justify-center px-2 rounded-tr-sm', statusClassName)}>
