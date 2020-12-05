@@ -1,7 +1,7 @@
-import { FC } from 'react';
 import clsx from 'clsx';
+import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { AdjustmentsIcon, CloseCircleIcon, CloseIcon, MenuIcon, UserIcon } from "../../components/icons";
+import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon } from "../../components/icons";
 import { useStore } from '../../store';
 
 export const MainLayout: FC = ({children}) => (
@@ -16,9 +16,22 @@ const Header: FC = () => {
   const store = useStore();
   return (
     <header className="flex items-center bg-white shadow-sm px-4 py-2 z-10">
-      <button className="flex justify-center items-center rounded-full hover:bg-gray-100 focus:outline-none transition-colors w-10 h-10 -mx-2 -my-1" onClick={()=> store.ui.toggleDrawer()}>
+      <button className="flex justify-center items-center rounded-full hover:bg-gray-900 focus:outline-none transition-colors w-10 h-10 -mx-2 -my-1" onClick={()=> store.ui.toggleDrawer()}>
         <MenuIcon/>
       </button>
+
+      <div className="flex items-center bg-gray-100 text-gray-500 focus-within:text-gray-900 focus-within:shadow-inner rounded-full ml-20 w-56 focus-within:w-96 transition-all">
+        <div className="px-2 opacity-80"><MagnifyIcon/></div>
+        <div className="flex-1">
+          <input type="text" placeholder="Szukaj" className="bg-transparent py-1 w-full rounded-full border-0 focus:outline-none"/>
+        </div>
+      </div>
+
+      <div className="flex-grow"/>
+
+      <div>
+        <button className="flex items-center bg-green-400 hover:bg-green-500 active:bg-green-600 focus:outline-none transition-colors text-white font-semibold rounded-full pl-2 pr-3 py-1 whitespace-nowrap"><PlusIcon/><span className="pl-1">Nowe zgłoszenie</span></button>
+      </div>
     </header>
   );
 }
@@ -53,8 +66,8 @@ const Drawer: FC = observer(() => {
           <div className="flex-1"/>
 
           <nav className="mb-4">
-            <NavItem leading={<AdjustmentsIcon/>}>Ustawienia</NavItem>
-            <NavItem leading={<UserIcon/>}>Jan Nowak</NavItem>
+            <NavItem leading={<TuneIcon/>}>Ustawienia</NavItem>
+            <NavItem leading={<AccountOutlineIcon/>}>Jan Nowak</NavItem>
           </nav>
         </div>
       </aside>

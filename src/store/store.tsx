@@ -1,13 +1,15 @@
 import { action, makeObservable, observable } from 'mobx';
-import { storeDecorator } from 'mobx/dist/internal';
+import { Order, makeDemoOrders } from './models';
 
 export class Store {
   ui: UI;
 
   @observable page = 'orders';
+  @observable orders: Order[] = [];
 
   constructor() {
     this.ui = new UI(this);
+    this.orders = makeDemoOrders(this);
 
     makeObservable(this);
   }
