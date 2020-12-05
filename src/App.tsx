@@ -1,26 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { observer } from "mobx-react-lite";
+import { useStore } from "./store";
+import { OrderPage } from "./pages/OrderPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+export const App = observer(() => {
+  const store = useStore()
+  if (store.page === 'orders')
+    return <OrderPage/>;
+  return <NotFoundPage/>
+});

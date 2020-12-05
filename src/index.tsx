@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { App } from './App';
+import { reportWebVitals } from './reportWebVitals';
+import { Store } from './store/store';
+import { StoreProvider } from './store';
+import './css/index.css';
+
+declare global {
+  interface Window {
+      store: Store;
+  }
+}
+
+const store = window.store = new Store();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <StoreProvider value={store}>
+      <App />
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
