@@ -11,11 +11,12 @@ import { showOrderDialog } from './OrderDialog';
 
 export const OrderPage = observer(() => {
   const store = useStore();
+  const view = store.ui.ordersView;
   return (
     <MainLayout>
-      <div className="relative flex-1 bg-gray-300 overflow-hidden">
+      <div className="relative flex-1 bg-gray-500 overflow-hidden">
         <div className="relative h-full grid justify-start items-start place-content-start z-10 p-2 overflow-scroll" style={{gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))'}}>
-          {store.orders.map(order => (
+          {view.filteredOrders.map(order => (
             <OrderItem key={order.id} order={order}/>
           ))}
         </div>
@@ -42,7 +43,7 @@ const OrderItem = observer(({order}: {order: Order}) => {
     [OrderStatus.done]: <CheckCircleOutlineIcon size={18}/>,
   }[order.status];
   return (
-    <div role="button" className={clsx('rounded shadow-md hover:shadow-xl cursor-pointer transition-all bg-white m-2 text-sm hover:opacity-100', {'opacity-60': order.status === OrderStatus.done})} onClick={()=> showOrderDialog({store, order})}>
+    <div role="button" className="rounded shadow-md hover:shadow-xl cursor-pointer transition-all bg-white m-2 text-sm opacity-90 hover:opacity-100" onClick={()=> showOrderDialog({store, order})}>
       <header className="flex items-stretch bg-gray-100 rounded rounded-b-none">
         <div className="flex-1 px-2 py-1 font-semibold">000{order.id}</div>
         <div className={clsx('flex items-center justify-center px-2 rounded-tr-sm', statusClassName)}>
@@ -60,7 +61,7 @@ const OrderItem = observer(({order}: {order: Order}) => {
         </div>
         <div className="flex items-center my-1">
           <div className="w-8 text-gray-400"><CarTurbochargerIcon size={24}/></div>
-          <div className="flex-1">Audi, 871231011</div>
+          <div className="flex-1">Audi / 871231011</div>
         </div>
         <div className="flex items-center my-1">
           <div className="w-8 text-gray-400"><AccountHardHatIcon size={24}/></div>

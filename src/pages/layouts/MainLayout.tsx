@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon } from "../../components/icons";
+import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon } from '../../components/icons';
 import { useStore } from '../../store';
+import { OrderStatus } from '../../store/models';
 
 export const MainLayout: FC = ({children}) => (
   <div className="relative flex flex-col h-screen">
@@ -29,7 +30,11 @@ const Header: FC = () => {
 
       <div className="flex-grow"/>
 
-      <div>
+      <div className="ml-4">
+        <OrderStatusFilter/>
+      </div>
+
+      <div className="ml-4">
         <button className="flex items-center bg-green-400 hover:bg-green-500 active:bg-green-600 focus:outline-none transition-colors text-white font-semibold rounded-full pl-2 pr-3 py-1 whitespace-nowrap"><PlusIcon/><span className="pl-1">Nowe zgłoszenie</span></button>
       </div>
     </header>
@@ -83,3 +88,38 @@ const NavItem: FC<{leading?: JSX.Element, children: any}> = ({leading, children}
     {children}
   </div>
 );
+
+const OrderStatusFilter: FC = () => {
+  const store = useStore();
+  const view = store.ui.ordersView;
+
+  function setFilter(status: OrderStatus | null) {
+    view.statusFilter = status !== null ? [status] : null;
+  }
+
+  function hasStatus(status: OrderStatus) {
+    return status === null || view.statusFilter!.includes(status);
+  }
+
+  function props(status: OrderStatus | null) {
+    return {
+      className: clsx('px-3 py-1 focus:outline-none', {
+        'border-l': status !== null,
+        'bg-gray-300': status === null && view.statusFilter === null,
+        'bg-blue-300': status === OrderStatus.new && view.statusFilter?.includes(status),
+        'bg-yellow-300': status === OrderStatus.inProgress && view.statusFilter?.includes(status),
+        'bg-green-300': status === OrderStatus.done && view.statusFilter?.includes(status),
+      }),
+      onClick: ()=> setFilter(status),
+    }
+  }
+
+  return (
+    <div className="flex border rounded text-xs whitespace-nowrap">
+      <button {...props(null)}>Wszystkie</button>
+      <button {...props(OrderStatus.new)}>Nowe</button>
+      <button {...props(OrderStatus.inProgress)}>W trakcie</button>
+      <button {...props(OrderStatus.done)}>Gotowe</button>
+    </div>
+  )
+};
