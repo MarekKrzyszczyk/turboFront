@@ -1,11 +1,9 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { Order, makeDemoOrders, OrderStatus } from './models';
+import { makeDemoOrders } from './models';
 
 export class Store {
-  ui: UI;
-
   @observable page = 'orders';
-  @observable orders: Order[] = [];
+  @observable orders = [];
 
   constructor() {
     this.ui = new UI(this);
@@ -15,28 +13,23 @@ export class Store {
 }
 
 class UI {
-  store: Store;
-  ordersView: OrdersView;
-
   @observable drawerOpen = false;
 
-  constructor(store: Store) {
+  constructor(store) {
     this.store = store;
     this.ordersView = new OrdersView(this);
     makeObservable(this);
   }
 
-  @action toggleDrawer(value?: boolean) {
+  @action toggleDrawer(value) {
     this.drawerOpen = value ?? !this.drawerOpen;
   }
 }
 
 class OrdersView {
-  ui: UI;
+  @observable statusFilter;
 
-  @observable statusFilter: OrderStatus[] | null = null;
-
-  constructor(ui: UI) {
+  constructor(ui) {
     this.ui = ui;
     makeObservable(this);
   }
@@ -46,6 +39,6 @@ class OrdersView {
   @computed get filteredOrders() {
     if (!this.statusFilter)
       return this.store.orders;
-    return this.store.orders.filter(order => this.statusFilter!.includes(order.status));
+    return this.store.orders.filter(order => this.statusFilter.includes(order.status));
   }
 }

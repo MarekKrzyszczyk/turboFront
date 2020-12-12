@@ -1,4 +1,4 @@
-function icon(children: JSX.Element) {
+function icon(children) {
   return ({ size = 24, viewBox = "0 0 24 24" }) => (
     <svg viewBox={viewBox} width={size} height={size}>
       {children}

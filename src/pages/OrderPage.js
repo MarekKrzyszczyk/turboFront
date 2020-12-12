@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
-import { Order, OrderStatus } from '../store/models';
+import { OrderStatus } from '../store/models';
 import { MainLayout } from './layouts/MainLayout';
 import { AccountHardHatIcon, ClockOutlineIcon, AccountTieIcon, CarTurbochargerIcon, CheckboxBlankCircleOutline, ProgressWrenchIcon, CheckCircleOutlineIcon, FaceAgentIcon, CommentTextOutlineIcon } from '../components/icons';
 import { orderStatusName } from '../utils/helpers';
@@ -30,7 +30,7 @@ export const OrderPage = observer(() => {
   );
 });
 
-const OrderItem = observer(({order}: {order: Order}) => {
+const OrderItem = observer(({order}) => {
   const store = useStore();
   const statusClassName = clsx({
     'bg-blue-300': order.status === OrderStatus.new,

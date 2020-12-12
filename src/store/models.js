@@ -2,20 +2,18 @@ import { makeObservable, observable } from "mobx";
 import { Store } from "./store";
 
 
-export enum OrderStatus {
-  new,
-  inProgress,
-  done,
+export const OrderStatus = {
+  new: 'new',
+  inProgress: 'inProgress',
+  done: 'done',
 };
 
 
 export class Order {
-  store: Store;
+  @observable id;
+  @observable status;
 
-  @observable id: number;
-  @observable status: OrderStatus;
-
-  constructor({store, id, status}: {store: Store, id: number, status: OrderStatus}) {
+  constructor({store, id, status}) {
     this.store = store;
     this.id = id;
     this.status = status;
@@ -24,7 +22,7 @@ export class Order {
   }
 }
 
-export function makeDemoOrders(store: Store) {
+export function makeDemoOrders(store) {
   return [
     new Order({store, id: 1, status: OrderStatus.new}),
     new Order({store, id: 2, status: OrderStatus.inProgress}),

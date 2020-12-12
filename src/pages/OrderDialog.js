@@ -1,13 +1,11 @@
-import clsx from 'clsx';
-import { FC } from "react";
-import { Store } from "../store/store";
-import { Order, OrderStatus } from "../store/models";
+import clsx from "clsx";
+import { OrderStatus } from "../store/models";
 import { openModal } from "../components/overlays";
 import { observer } from "mobx-react-lite";
 import { AccountHardHatIcon, AccountTieIcon, CalendarIcon, CarTurbochargerIcon, CheckboxBlankCircleOutline, CheckCircleOutlineIcon, ClockOutlineIcon, CloseIcon, CommentTextOutlineIcon, FaceAgentIcon, MessageAlertOutlineIcon, ProgressWrenchIcon, TrashCanOutlineIcon, UnfoldMoreHorizontalIcon } from "../components/icons";
 import { orderStatusName } from "../utils/helpers";
 
-const OrderDialog: FC<{order: Order, close: Function}> = observer(({ order, close }) => {
+const OrderDialog = observer(({ order, close }) => {
   const statusClassName = clsx({
     'bg-blue-300': order.status === OrderStatus.new,
     'bg-yellow-300': order.status === OrderStatus.inProgress,
@@ -128,9 +126,9 @@ const OrderDialog: FC<{order: Order, close: Function}> = observer(({ order, clos
   )
 });
 
-export function showOrderDialog({store, order}: {store: Store, order: Order}) {
+export function showOrderDialog({store, order}) {
   return openModal(
-    ({ close }: {close: Function}) => <OrderDialog order={order} close={close}/>,
+    ({ close }) => <OrderDialog order={order} close={close}/>,
     {
       transitionName: 'scale',
       autoDismissable: false,

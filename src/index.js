@@ -6,12 +6,6 @@ import { Store } from './store/store';
 import { StoreProvider } from './store';
 import './css/index.css';
 
-declare global {
-  interface Window {
-      store: Store;
-  }
-}
-
 const store = window.store = new Store();
 
 ReactDOM.render(

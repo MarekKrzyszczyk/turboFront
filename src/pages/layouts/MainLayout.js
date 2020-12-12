@@ -1,11 +1,10 @@
 import clsx from 'clsx';
-import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon } from '../../components/icons';
 import { useStore } from '../../store';
 import { OrderStatus } from '../../store/models';
 
-export const MainLayout: FC = ({children}) => (
+export const MainLayout = ({ children }) => (
   <div className="relative flex flex-col h-screen">
     <Drawer/>
     <Header/>
@@ -13,7 +12,7 @@ export const MainLayout: FC = ({children}) => (
   </div>
 );
 
-const Header: FC = () => {
+const Header = () => {
   const store = useStore();
   return (
     <header className="flex items-center bg-white shadow-sm px-4 py-2 z-10">
@@ -41,13 +40,13 @@ const Header: FC = () => {
   );
 }
 
-const Drawer: FC = observer(() => {
+const Drawer = observer(() => {
   const store = useStore();
   const drawerOpen = store.ui.drawerOpen;
   const style = {
     width: 320,
     left: drawerOpen ? 0 : -320,
-    transition: 'left .5s ease-in-out',
+    transition: 'left .3s ease-in-out',
   }
   return (
     <>
@@ -80,7 +79,7 @@ const Drawer: FC = observer(() => {
   );
 });
 
-const NavItem: FC<{leading?: JSX.Element, children: any}> = ({leading, children}) => (
+const NavItem = ({leading, children}) => (
   <div role="button" className="flex items-center px-6 py-2 text-gray-600 hover:bg-gray-100 cursor-pointer">
     {leading &&
       <span className="inline-block w-8">{leading}</span>
@@ -93,15 +92,11 @@ const OrderStatusFilter: FC = () => {
   const store = useStore();
   const view = store.ui.ordersView;
 
-  function setFilter(status: OrderStatus | null) {
+  function setFilter(status) {
     view.statusFilter = status !== null ? [status] : null;
   }
 
-  function hasStatus(status: OrderStatus) {
-    return status === null || view.statusFilter!.includes(status);
-  }
-
-  function props(status: OrderStatus | null) {
+  function props(status) {
     return {
       className: clsx('px-3 py-1 focus:outline-none', {
         'border-l': status !== null,
