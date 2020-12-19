@@ -1,5 +1,4 @@
 import { makeObservable, observable } from "mobx";
-import { Store } from "./store";
 
 
 export const OrderStatus = {
