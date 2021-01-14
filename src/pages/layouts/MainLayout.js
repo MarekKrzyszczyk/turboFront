@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon } from '../../components/icons';
+import { AccountOutlineIcon, CloseIcon, MenuIcon, MagnifyIcon, TuneIcon, PlusIcon, LogoutIcon } from '../../components/icons';
 import { useStore } from '../../store';
 import { OrderStatus } from '../../store/models';
 
@@ -71,7 +71,7 @@ const Drawer = observer(() => {
 
           <nav className="mb-4">
             <NavItem leading={<TuneIcon/>}>Ustawienia</NavItem>
-            <NavItem leading={<AccountOutlineIcon/>}>Jan Nowak</NavItem>
+            <NavItem leading={<LogoutIcon/>} onClick={()=> store.logout()}>Wyloguj</NavItem>
           </nav>
         </div>
       </aside>
@@ -79,8 +79,8 @@ const Drawer = observer(() => {
   );
 });
 
-const NavItem = ({leading, children}) => (
-  <div role="button" className="flex items-center px-6 py-2 text-gray-600 hover:bg-gray-100 cursor-pointer">
+const NavItem = ({leading, children, onClick}) => (
+  <div role="button" onClick={onClick} className="flex items-center px-6 py-2 text-gray-600 hover:bg-gray-100 cursor-pointer">
     {leading &&
       <span className="inline-block w-8">{leading}</span>
     }

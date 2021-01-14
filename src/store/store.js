@@ -2,6 +2,8 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { makeDemoOrders } from './models';
 
 export class Store {
+  @observable isLoggedIn = false;
+
   @observable page = 'orders';
   @observable orders = [];
 
@@ -9,6 +11,18 @@ export class Store {
     this.ui = new UI(this);
     this.orders = makeDemoOrders(this);
     makeObservable(this);
+  }
+
+  @action tryLogin(login, password) {
+    if (login === 'turbo' && password === 'turbo') {
+      this.isLoggedIn = true;
+      return true;
+    }
+    return false;
+  }
+
+  @action logout() {
+    this.isLoggedIn = false;
   }
 }
 
