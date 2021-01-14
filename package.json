@@ -28,7 +28,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "deploy": "craco build && scp -rp ./build/* turbouser@turboapp.pl:/home/turbouser/apps/front"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://turboapp.pl/"
 }

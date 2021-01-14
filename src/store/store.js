@@ -1,16 +1,43 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import { makeDemoOrders } from './models';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { API } from './api';
 
 export class Store {
   @observable isLoggedIn = false;
 
-  @observable page = 'orders';
+  @observable parts = [];
+  @observable turbos = [];
+  @observable reasons = [];
   @observable orders = [];
 
   constructor() {
+    this.api = new API(this);
     this.ui = new UI(this);
-    this.orders = makeDemoOrders(this);
+
+    this.restore();
+    this.fetchInitialData();
+
     makeObservable(this);
+    reaction(() => {
+        return {
+          auth: {
+            isLoggedIn: this.isLoggedIn,
+          },
+        };
+      },
+      snapshot => localStorage.setItem('settings', JSON.stringify(snapshot)),
+    );
+  }
+
+  restore() {
+    try {
+      const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+      this.isLoggedIn = settings.auth?.isLoggedIn;
+    } catch (err) {}
+  }
+
+  fetchInitialData() {
+    this.api.getParts().then(parts => this.parts = parts);
+    this.api.getReasons().then(reasons => this.reasons = reasons);
   }
 
   @action tryLogin(login, password) {
@@ -27,6 +54,7 @@ export class Store {
 }
 
 class UI {
+  @observable page = 'orders';
   @observable drawerOpen = false;
 
   constructor(store) {
@@ -37,6 +65,10 @@ class UI {
 
   @action toggleDrawer(value) {
     this.drawerOpen = value ?? !this.drawerOpen;
+  }
+
+  goTo(page) {
+    this.page = page;
   }
 }
 
